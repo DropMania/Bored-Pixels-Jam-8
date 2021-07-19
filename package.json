@@ -1,0 +1,28 @@
+{
+    "name": "bored-pixels-jam-8",
+    "version": "1.0.0",
+    "description": "-   playing the villain\r -   playing a side character to the story\r -   gacha game",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DropMania/Bored-Pixels-Jam-8.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/DropMania/Bored-Pixels-Jam-8/issues"
+    },
+    "homepage": "https://github.com/DropMania/Bored-Pixels-Jam-8#readme",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "monk": "^7.3.4",
+        "vue-router": "^4.0.10"
+    }
+}
