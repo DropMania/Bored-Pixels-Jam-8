@@ -1,5 +1,14 @@
 <template>
-    <div class="hero-card" v-if="props.hero.name">
+    <div
+        class="hero-card"
+        v-if="props.hero.name"
+        :style="{
+            background: props.hero.shiny
+                ? 'url(' + require('../assets/card-bg.gif') + ')'
+                : 'url(' + require('../assets/card-bg.png') + ')',
+            backgroundSize: 'cover'
+        }"
+    >
         <img
             :src="require(`../assets/heros/${props.hero.img}`)"
             class="hero-img"
@@ -45,11 +54,14 @@ export default {
     justify-content: flex-start;
     align-items: center;
     font-size: 3vh;
+
+    background-size: cover;
 }
 .hero-img {
     border: solid black;
     margin: 10px;
     padding: 5px 5px 0px 5px;
     width: 50%;
+    background-color: #cfcfcf;
 }
 </style>

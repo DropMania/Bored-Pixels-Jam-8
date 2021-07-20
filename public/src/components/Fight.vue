@@ -295,6 +295,7 @@ export default {
 }
 .fighting * {
     height: 27vh;
+    transition: ease-in 0.5s;
 }
 .enemy-fighting {
     display: flex;

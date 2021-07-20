@@ -42,7 +42,7 @@ export default {
                 })
                 store.player = player
                 rolledHero.value = hero
-                rolled.value = ['20vmin', '24vmin']
+                rolled.value = ['20vmin', '27vmin']
                 await sleep(3000)
                 rolledHero.value = {}
                 /*  console.log('test')

@@ -119,6 +119,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* background: url(../assets/manage-bg.png);
+    background-size: contain; */
 }
 .partie-holder {
     display: flex;
@@ -128,6 +130,7 @@ export default {
     border: solid black;
     margin: 10px;
     padding: 10px;
+    background-color: #555;
 }
 .add-btn {
     border: solid black 8px;
@@ -139,6 +142,7 @@ export default {
     font-size: 5em;
     margin-left: 10px;
     margin-right: 10px;
+    background-color: black;
 }
 .remove-btn {
     border: solid black;
@@ -148,6 +152,7 @@ export default {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    background-color: black;
 }
 .hero-holder {
     display: flex;
@@ -160,6 +165,7 @@ export default {
     padding: 50px 10px 10px 10px;
     width: 80%;
     min-height: 50vh;
+    background-color: #888;
 }
 .partie-heros {
     display: flex;
