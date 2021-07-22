@@ -76,8 +76,9 @@ export default {
     background-size: cover;
 }
 .roll-text {
-    color: #f0f0f0;
+    color: #fff;
     text-shadow: 5px 5px 5px black;
     font-size: 5vh;
+    margin-bottom: 5vh;
 }
 </style>

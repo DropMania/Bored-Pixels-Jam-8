@@ -8,6 +8,7 @@
                     :hero="hero"
                     draggable="true"
                     @dragstart="dragstart($event, hero)"
+                    class="draggable"
                 />
             </div>
             <div
@@ -33,6 +34,7 @@
                 :hero="hero"
                 draggable="true"
                 @dragstart="dragstart($event, hero)"
+                class="draggable"
             />
         </div>
         <div
@@ -78,6 +80,7 @@ export default {
             let heroId = e.dataTransfer.getData('hero')
             let player
             if (e.target.id == 'hero-adder') {
+                store.player.partie.push(heroId)
                 player = await callServer('addHeroToPartie', {
                     id: store.player._id,
                     heroId
@@ -85,6 +88,10 @@ export default {
                 store.player = player
             }
             if (e.target.id == 'hero-holder') {
+                store.player.partie.splice(
+                    store.player.partie.findIndex((h) => h == heroId),
+                    1
+                )
                 player = await callServer('removeHeroFromPartie', {
                     id: store.player._id,
                     heroId
@@ -92,6 +99,10 @@ export default {
                 store.player = player
             }
             if (e.target.id == 'hero-remover') {
+                store.player.heros.splice(
+                    store.player.heros.findIndex((h) => h._id == heroId),
+                    1
+                )
                 player = await callServer('removeHero', {
                     id: store.player._id,
                     heroId
@@ -119,8 +130,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background: url(../assets/manage-bg.png);
-    background-size: contain; */
+    background: url(../assets/manage-bg.png);
+    background-size: contain;
 }
 .partie-holder {
     display: flex;
@@ -130,7 +141,7 @@ export default {
     border: solid black;
     margin: 10px;
     padding: 10px;
-    background-color: #555;
+    background-color: #333;
 }
 .add-btn {
     border: solid black 8px;
@@ -165,10 +176,24 @@ export default {
     padding: 50px 10px 10px 10px;
     width: 80%;
     min-height: 50vh;
-    background-color: #888;
+    background-color: #444;
 }
 .partie-heros {
     display: flex;
     gap: 10px;
+}
+.draggable {
+    cursor: grab;
+}
+.draggable:active {
+    cursor: grabbing;
+}
+.draggable img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 </style>

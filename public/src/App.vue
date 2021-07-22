@@ -1,29 +1,66 @@
 <template>
-    <router-view />
+    <div class="loading" v-if="state == 'LOAD'">
+        Loading...
+    </div>
+    <div class="home" v-if="state == 'HOME'">
+        <div class="title">They Are The Heros</div>
+        <button @click="createPlayer()">Create Player!</button>
+    </div>
+    <div class="creator" v-if="state == 'CREATE'">
+        <input
+            @keydown.enter="create"
+            placeholder="Name..."
+            type="text"
+            v-model="name"
+        />
+        <button @click="create">create</button>
+    </div>
+    <Game v-if="state == 'GAME'" />
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import callServer from './callServer'
 import store from './store'
 import { sleep } from './utils'
+import Game from './components/Game.vue'
 export default {
+    components: {
+        Game
+    },
     setup() {
-        let router = useRouter()
+        let name = ref('')
+        let state = ref('HOME')
         onMounted(async () => {
             if (localStorage.getItem('player')) {
+                state.value = 'LOAD'
                 let player = await callServer('getPlayer', {
                     id: localStorage.getItem('player')
                 })
                 if (player?._id) {
                     store.player = player
-                    router.push({ name: 'Game' })
+                    state.value = 'GAME'
                 } else {
-                    router.push({ name: 'Home' })
+                    state.value = 'HOME'
                 }
             }
         })
+        function createPlayer() {
+            state.value = 'CREATE'
+        }
+        async function create() {
+            state.value = 'LOAD'
+            let player = await callServer('create', { name: name.value })
+            store.player = player
+            localStorage.setItem('player', player._id)
+            state.value = 'GAME'
+        }
+        return {
+            state,
+            createPlayer,
+            create,
+            name
+        }
     }
 }
 </script>
@@ -35,11 +72,12 @@ export default {
 }
 * {
     font-family: PixelMain;
+    color: white;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    color: white;
 }
+
 html,
 body {
     margin: 0px;
@@ -73,5 +111,33 @@ input {
     font-size: 5vmin;
     padding: 10px;
     color: white;
+}
+.home {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.title {
+    font-size: 10vw;
+    color: white;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-shadow: 10px 10px 20px black;
+}
+.creator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 10vh;
 }
 </style>

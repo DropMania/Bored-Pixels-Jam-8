@@ -42,7 +42,7 @@
     -   ArrangePartie
     -   Roll
 -   [x] Animate fight
--   [ ] Tutorial
+-   [x] Tutorial
 -   [x] show Crit chance
--   [ ] Background images
--   [ ] More Heros
+-   [x] Background images
+-   [x] More Heros

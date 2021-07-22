@@ -20,7 +20,7 @@
             <button @click="setState('MANAGE')">Manage your Partie</button>
             <button @click="setState('BOARD')">Leaderboard</button>
         </div>
-        <Modal width="50vw" height="80vh" v-if="store.player.state == 'HELP'">
+        <Modal width="50vw" height="90vh" v-if="store.player.state == 'HELP'">
             <Help />
         </Modal>
         <Modal width="50vw" height="90vh" v-if="store.player.state == 'CREATE'">
@@ -46,14 +46,13 @@
         >
             <Manage />
         </Modal>
-        <Modal width="50vw" height="80vh" v-if="store.player.state == 'BOARD'">
+        <Modal width="75vw" height="80vh" v-if="store.player.state == 'BOARD'">
             <Leaderboard />
         </Modal>
     </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
 import store from '../store'
 import callServer from '../callServer'
 import Modal from './Modal.vue'
@@ -85,6 +84,7 @@ export default {
                     'you need to have at least one Hero in your partie.\nyou can arrange your partie under: Manage your Partie'
                 )
             } else {
+                store.player.state = state
                 let player = await callServer('updatePlayer', {
                     id: store.player._id,
                     update: { state }
@@ -92,12 +92,6 @@ export default {
                 store.player = player
             }
         }
-
-        let router = useRouter()
-        if (!store.player._id && !localStorage.getItem('player')) {
-            router.push({ name: 'Home' })
-        }
-
         return { store, setState }
     }
 }

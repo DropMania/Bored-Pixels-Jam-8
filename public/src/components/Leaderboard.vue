@@ -18,20 +18,25 @@
                 Coins
             </button>
         </div>
-        <div class="board-items">
+        <div class="board-items" v-if="!loading">
             <div
-                class="board-item"
-                v-for="player in allPlayer"
+                v-for="player in store.leaderboard"
                 :key="player._id"
+                :class="
+                    player._id == store.player._id
+                        ? 'me board-item'
+                        : 'board-item'
+                "
             >
                 <div class="board-name">
-                    <span v-if="player._id == store.player._id">-</span>
                     {{ player.name }} ({{ player.level }})
-                    <span v-if="player._id == store.player._id">-</span>
                 </div>
                 <div class="board-coins">{{ player.money }}<Coin /></div>
                 <div class="board-heros">{{ player.heros.length }} Heros</div>
             </div>
+        </div>
+        <div v-if="loading">
+            Loading...
         </div>
     </div>
 </template>
@@ -48,6 +53,7 @@ export default {
     setup() {
         let sorter = ref('LEVEL')
         let allPlayer = ref([])
+        let loading = ref(true)
         function setSort(val) {
             sorter.value = val
             switch (val) {
@@ -62,8 +68,10 @@ export default {
         onMounted(async () => {
             allPlayer.value = await callServer('getAllPlayer')
             allPlayer.value.sort((a, b) => b.level - a.level)
+            store.leaderboard = allPlayer
+            loading.value = false
         })
-        return { sorter, setSort, allPlayer, store }
+        return { sorter, setSort, allPlayer, store, loading }
     }
 }
 </script>
@@ -93,5 +101,8 @@ export default {
 }
 .board-item div {
     flex: 1;
+}
+.me div {
+    color: #e2b752;
 }
 </style>

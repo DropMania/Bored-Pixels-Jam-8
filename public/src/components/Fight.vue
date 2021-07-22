@@ -1,10 +1,13 @@
 <template>
     <div class="fight">
+        <div class="fight-title" v-if="state == 'LOAD'">
+            Loading...
+        </div>
         <div class="fight-title" v-if="state == 'SHOW'">
             Choose an Enemy to Fight!
         </div>
         <div class="enemies" v-if="state == 'SHOW'">
-            <div v-if="enemies.length == 0">
+            <div class="fight-title" v-if="enemies.length == 0">
                 There is no enemy in your level range
             </div>
             <div class="enemy" v-for="enemy in enemies" :key="enemy._id">
@@ -80,13 +83,14 @@ export default {
     setup() {
         let enemies = ref([])
         let enemyHeros = ref([])
-        let state = ref('SHOW')
+        let state = ref('LOAD')
         let fighting = ref(false)
         let winningState = ref('')
         let winMoney = ref(0)
         let loseMoney = ref(0)
         let crit = ref(false)
         let critDmg = 1.2
+        let loading = ref(true)
         let myHeros = ref(
             store.player.heros.filter((hero) => {
                 return store.player.partie.includes(hero._id)
@@ -94,17 +98,13 @@ export default {
         )
         let fightEnemy = ref({})
         onMounted(async () => {
-            let allPlayer = await callServer('getEnemies')
+            let allPlayer = await callServer('getEnemies', {
+                id: store.player._id,
+                level: store.player.level
+            })
             allPlayer.sort(() => Math.random() - 0.5)
-            enemies.value = allPlayer
-                .filter(
-                    (p) =>
-                        p._id != store.player._id &&
-                        p.partie.length > 0 &&
-                        p.level >= store.player.level - 5 &&
-                        p.level <= store.player.level + 5
-                )
-                .filter((p, i) => i < 5)
+            enemies.value = allPlayer.filter((p) => p._id != store.player._id)
+            state.value = 'SHOW'
         })
         function fight(enemy) {
             state.value = 'FIGHT'
@@ -189,7 +189,10 @@ export default {
                                 ? 0
                                 : store.player.money - loseMoney.value
                             : store.player.money + winMoney.value,
-                    level: store.player.level + 1
+                    level:
+                        winningState.value == 'LOST'
+                            ? store.player.level
+                            : store.player.level + 1
                 }
             })
             store.player = player
@@ -207,7 +210,8 @@ export default {
             winningState,
             winMoney,
             loseMoney,
-            crit
+            crit,
+            loading
         }
     }
 }

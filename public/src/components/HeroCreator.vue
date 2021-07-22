@@ -66,9 +66,12 @@ export default {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    padding-top: 1vh;
+    background: url(../assets/create-bg.png);
+    background-size: cover;
+    height: 100%;
 }
 .name-input {
+    padding-top: 1vh;
     width: 80%;
     font-size: 3vh;
 }

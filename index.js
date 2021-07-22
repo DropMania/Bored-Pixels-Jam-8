@@ -103,7 +103,19 @@ app.post('/removeHero', async (req, res) => {
     res.json(player)
 })
 app.post('/getEnemies', async (req, res) => {
-    let data = await players.aggregate([{ $sample: { size: 5 } }])
+    const { id, level } = req.body
+    let data = await players.aggregate([
+        {
+            $match: {
+                level: { $gt: level - 5, $lt: level + 5 },
+                $nor: [{ partie: { $size: 0 } }, { _id: id }]
+            }
+        },
+        {
+            $sample: { size: 5 }
+        }
+    ])
+    console.log(data)
     res.json(data)
 })
 app.post('/getAllPlayer', async (req, res) => {

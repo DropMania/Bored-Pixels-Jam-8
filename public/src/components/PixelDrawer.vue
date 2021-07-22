@@ -8,7 +8,15 @@
                     v-for="color in colors"
                     :key="color"
                     @click="setColor(color)"
-                    :style="{ backgroundColor: `rgb(${color})` }"
+                    :style="{
+                        backgroundImage:
+                            color == 'ERASER'
+                                ? `url(${require('../assets/X.png')})`
+                                : '',
+                        backgroundSize: 'contain',
+                        backgroundColor:
+                            color == 'ERASER' ? '' : `rgb(${color})`
+                    }"
                 ></div>
             </div>
         </div>
@@ -29,7 +37,14 @@ export default {
         let canvasHeight = 16
         let getBase64 = () => cnvs.value.toDataURL()
         let rgb = [0, 0, 0]
-        let setColor = (rgbS) => (rgb = rgbS.split(','))
+        let setColor = (rgbS) => {
+            if (rgbS == 'ERASER') {
+                eraserMode = true
+            } else {
+                eraserMode = false
+                rgb = rgbS.split(',')
+            }
+        }
         let history = []
         let data = {}
         let eraserMode = false

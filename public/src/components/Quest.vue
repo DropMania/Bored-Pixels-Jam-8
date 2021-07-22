@@ -41,5 +41,7 @@ export default {
     height: 100%;
     font-size: 5vh;
     flex-direction: column;
+    background: url(../assets/quest-bg.png);
+    background-size: cover;
 }
 </style>

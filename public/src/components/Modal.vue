@@ -23,6 +23,7 @@ export default {
     },
     setup(props) {
         async function setStateNone() {
+            store.player.state = 'NONE'
             let player = await callServer('updatePlayer', {
                 id: store.player._id,
                 update: { state: 'NONE' }
