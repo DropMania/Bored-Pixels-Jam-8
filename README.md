@@ -2,7 +2,7 @@
 
 ## Theme: You Are Not The Hero
 
-[Itch.io Gampage](https://dropmania.itch.io/they-are-the-heroes)
+[Itch.io Gamepage](https://dropmania.itch.io/they-are-the-heroes)
 
 ## Brainstorming:
 
